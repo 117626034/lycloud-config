@@ -24,21 +24,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  #链路跟踪配置
-#  zipkin:
-#    base-url: http://zipkin:9411
-#  sleuth:
-#    sampler:
-#      rate: 1
-seata:
-  service:
-    grouplist: seata-server:8091
-  client:
-    support:
-      spring:
-        datasource-autoproxy: true  # 默认为true
-  tx-service-group: lycloud_tx_group
-
 # 屏蔽Eureka心跳日志
 logging:
   level:
