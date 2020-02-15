@@ -1,6 +1,6 @@
 spring:                                                      # spring配置
   application:
-    name: user-service                                       # 微服务名称
+    name: order-service                                       # 微服务名称
   datasource:
     # Druid数据源连接池配置
     driver-class-name: com.mysql.cj.jdbc.Driver
