@@ -1,3 +1,0 @@
-spring:
-  application:
-    name: lycloud-eureka-server                                       # 微服务名称
