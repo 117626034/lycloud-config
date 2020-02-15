@@ -1,0 +1,81 @@
+spring:                                                        # spring配置
+  application:
+    name: lycloud-zuul-server                                  # 微服务名称
+  http:                                                        # 该配置解决返回数据中文乱码问题
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  redis:                                                       # Reids配置
+    host: redis
+    port: 6379
+    password: 123456
+    timeout: 1000ms
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+zuul:                                                         # zuul配置
+  # 以下两个配置解决Zuul网关跨域问题 需要忽略的头部信息 不在传播到其他服务
+  sensitiveHeaders: Authorization
+  ignored-headers: Access-Control-Allow-Credentials,Access-Control-Allow-Origin,Vary,X-Frame-Options
+  routes:                                                     # 配置用户服务和订单服务的路由
+    user-service:
+      path: /user/**
+      serviceId: user-service
+      # 使用/user/login方式访问，为true时以/user/user/login方式访问
+      strip-prefix: false
+    order-service:
+      path: /order/**
+      serviceId: order-service
+      strip-prefix: false
+  ratelimit:                                                # 配置用户微服务的限流策略
+    enabled: true                                           # 开启限流
+    repository: REDIS                                       # 存储方式
+    behind-proxy: true                                      # 开启代理
+    # 限流策略
+    default-policy-list:                                    # 针对所有路由的配置策略
+      - limit: 10                                           # 每个刷新时间窗口对应的请求数量限制
+        quota: 1000                                         # 每个刷新时间窗口对应的请求时间限制（秒）
+        refresh-interval: 60                                # 刷新时间窗口的时间，默认值 (秒)
+        type:                                               # 限流方式
+          - url
+          - httpmethod
+          - origin
+#    policy-list:                                          # 针对某一个服务路由的配置策略
+#      user-service:                                       # 服务名为user-service的限流策略
+#        - limit: 2
+#          quota: 1
+#          refresh-interval: 3
+#          type:
+#            - url
+#            - httpmethod
+#            - origin
+hystrix:                                                 # 设置熔断默认超时
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 25000                # 全局熔断超时时长
+#    user-service:                                      # 服务名为user-service的熔断策略
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 6000
+ribbon:                                                 # 设置负载均衡默认超时
+  ConnectTimeout: 10000                                 #ribbon 链接超时时长,默认2000
+   ReadTimeout: 20000                                   #ribbon 读取超时时长，默认3000
+#data-filter:                                           # 没有在这里配置的微服务，请求时就不需要令牌。
+#  auth-path:                                           # 需要验证token的请求地址,可设置多个,会触发JwtAuthFilter
+#    - /order/**
+#  user-login-path:                                     # 发放登录认证地址,可设置多个,会触发JwtTokenFilter
+#    - /user/login
+#    - /user/getLogin
+#    - /user/postLogin
+logging:                                                # 屏蔽Eureka心跳日志
+  level:
+    com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver: WARN
