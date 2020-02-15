@@ -24,6 +24,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+seata:
+  service:
+    grouplist: seata-server:8091
+    #disable-global-transaction: false   # seata1.0的这个配置无效 等1.0.1就可以了
+  client:
+    support:
+      spring:
+        datasource-autoproxy: true  # 默认为false
+  tx-service-group: lycloud_tx_group
 # 屏蔽Eureka心跳日志
 logging:
   level:
