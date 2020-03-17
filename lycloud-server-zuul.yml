@@ -59,7 +59,7 @@ data-filter:
   # 需要认证的地址
   auth-path:
     - /order/**
-#    - /user/**
+    - /user/**
     - /c/**
   # 授权接口地址
   user-login-path:
