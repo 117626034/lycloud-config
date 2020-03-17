@@ -32,7 +32,7 @@ zuul:                                                         # zuul配置
   ignored-headers: Access-Control-Allow-Credentials,Access-Control-Allow-Origin,Vary,X-Frame-Options
   routes:
     PROVIDER-ORDER: /order/**                                # 服务提供方 订单服务的路由
-    PROVIDER-USER: /user/**                                     # 服务提供方 用户服务的路由
+#    PROVIDER-USER: /user/**                                     # 服务提供方 用户服务的路由
     CONSUMER-PROJECT: /c/**                                 # 服务消费方项目的路由
   ratelimit:
     # 开启限流
